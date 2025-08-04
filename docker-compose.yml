@@ -28,9 +28,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    working_dir: /app
     volumes:
-      - ./:/app
+      - ./dist:/scripts
     environment:
       - K6_OUT=influxdb=http://influxdb:8086/k6
       - K6_INFLUXDB_USERNAME=admin

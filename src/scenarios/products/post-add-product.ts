@@ -61,7 +61,7 @@ export default function () {
     const body = res.json() as Product | null;
 
     check(res, {
-      'status is 200': (r) => r.status === 200,
+      'status is 201': (r) => r.status === 201,
       'product has id and title': () => !!(body?.id && body?.title === 'BMW Pencil'),
     });
   });

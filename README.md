@@ -113,55 +113,26 @@ Ensure you have the following software installed on your system:
 
 ## How to Run Tests
 
-Tests are executed using `docker-compose run` commands, which leverage the k6 service defined in `docker-compose.yml`.
+Tests can be executed using `npm run` commands for convenience, which internally leverage `docker-compose run`.
 
 ### Running All Tests
 
-To run all performance tests sequentially, you can use a loop. Ensure your Docker services (`influxdb` and `grafana`) are running (`docker-compose up -d influxdb grafana`) before executing this.
+To run all performance tests sequentially, use the following command:
 
 ```bash
-TEST_FILES=(
-  "/scripts/get-categories-details.js"
-  "/scripts/get-category-names.js"
-  "/scripts/get-products-by-category.js"
-  "/scripts/get-products-select-fields.js"
-  "/scripts/get-products-sort-asc.js"
-  "/scripts/get-products-sort-desc.js"
-  "/scripts/get-search-products.js"
-  "/scripts/post-add-product.js"
-  "/scripts/put-update-product.js"
-  "/scripts/search-products.js"
-)
-
-for TEST_FILE in "${TEST_FILES[@]}"; do
-  echo "Running test: $TEST_FILE"
-  docker-compose run --rm k6 run "$TEST_FILE" \
-    --env RATE=1 \
-    --env TIME_UNIT=1s \
-    --env DURATION=5s \
-    --env PRE_ALLOCATED_VUS=10 \
-    --env MAX_VUS=50
-  if [ $? -ne 0 ]; then
-    echo "Test $TEST_FILE failed!"
-    # Optionally, exit here if you want the script to stop on the first test failure
-    # exit 1
-  fi
-done
+npm run run:all-tests
 ```
+
+This script will automatically start InfluxDB and Grafana, run all tests, and then stop the services.
 
 ### Running Individual Tests
 
-You can run any specific test script by providing its path relative to the `/scripts` directory inside the container. Remember that `/scripts` maps to your local `k6-tests/` directory.
+To run a specific test script, use the `run:test` command followed by the test file name (without the `.js` extension).
 
 Example for `search-products.js`:
 
 ```bash
-docker-compose run --rm k6 run /scripts/search-products.js \
-  --env RATE=1 \
-  --env TIME_UNIT=1s \
-  --env DURATION=5s \
-  --env PRE_ALLOCATED_VUS=10 \
-  --env MAX_VUS=50
+npm run run:test search-products
 ```
 
 **Common Environment Variables (passed with `--env`):**

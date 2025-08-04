@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:docker": "docker-compose up --build",
-    "stop:docker": "docker-compose down"
+    "stop:docker": "docker-compose down",
+    "run:all-tests": "./run-all-tests.sh",
+    "run:test": "docker-compose run --rm k6 run /scripts/$1.js --env RATE=1 --env TIME_UNIT=1s --env DURATION=5s --env PRE_ALLOCATED_VUS=10 --env MAX_VUS=50"
   },
   "repository": {
     "type": "git",

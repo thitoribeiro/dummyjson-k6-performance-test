@@ -39,7 +39,7 @@ jobs:
         run: docker-compose build
 
       - name: Start InfluxDB and Grafana
-        run: docker-compose up -d influxdb grafana
+        run: docker compose up -d influxdb grafana
 
       - name: Wait for InfluxDB to be ready
         run: |

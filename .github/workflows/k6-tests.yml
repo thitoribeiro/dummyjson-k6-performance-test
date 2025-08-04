@@ -45,7 +45,7 @@ jobs:
         run: |
           echo "Waiting for InfluxDB to be ready..."
           for i in $(seq 1 10); do
-            docker-compose logs influxdb | grep "InfluxDB starting" && break
+            docker compose logs influxdb | grep "InfluxDB starting" && break
             echo "Attempt $i: InfluxDB not ready yet..."
             sleep 5
           done
@@ -67,7 +67,7 @@ jobs:
 
           for TEST_FILE in "${TEST_FILES[@]}"; do
             echo "Running test: $TEST_FILE"
-            docker-compose run --rm k6 run "$TEST_FILE" \
+            docker compose run --rm k6 run "$TEST_FILE" \
               --env RATE=1 \
               --env TIME_UNIT=1s \
               --env DURATION=5s \
@@ -82,4 +82,4 @@ jobs:
 
       - name: Stop Docker services
         if: always()
-        run: docker-compose down
+        run: docker compose down

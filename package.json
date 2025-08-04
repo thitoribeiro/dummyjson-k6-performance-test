@@ -1,0 +1,31 @@
+{
+  "name": "dummyjson-k6-performance-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start:docker": "docker-compose up --build",
+    "stop:docker": "docker-compose down"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thitoribeiro/dummyjson-k6-performance-test.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/thitoribeiro/dummyjson-k6-performance-test/issues"
+  },
+  "homepage": "https://github.com/thitoribeiro/dummyjson-k6-performance-test#readme",
+  "devDependencies": {
+    "@types/k6": "^1.1.1",
+    "@types/node": "^24.1.0",
+    "esbuild": "^0.25.8",
+    "k6": "^0.0.0",
+    "typescript": "^5.9.2"
+  }
+}

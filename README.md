@@ -1,8 +1,6 @@
 # DummyJSON k6 Performance Test Project
 
-![k6 Logo](https://k6.io/images/k6-logo.svg)
-![Docker Logo](https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png)
-![Grafana Logo](https://grafana.com/static/assets/img/grafana_logo_icon_32.svg)
+
 
 ## Table of Contents
 

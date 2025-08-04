@@ -1,1 +1,0 @@
-console.log('K6 + TypeScript project ready');

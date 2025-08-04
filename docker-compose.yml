@@ -29,7 +29,7 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ./dist:/scripts
+      - ./k6-tests:/scripts
     environment:
       - K6_OUT=influxdb=http://influxdb:8086/k6
       - K6_INFLUXDB_USERNAME=admin

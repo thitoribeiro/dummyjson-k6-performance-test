@@ -1,56 +1,53 @@
 name: Run k6 Performance Tests
 
 on:
-  workflow_dispatch: # Permite execução manual via interface do GitHub
+  workflow_dispatch: # Allows manual triggering from the GitHub UI
 
 jobs:
   performance-test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📦 Checkout repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: 🟢 Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '20' # Use a recent Node.js version
 
-      - name: 📚 Install dependencies
+      - name: Install dependencies
         run: npm install
 
-      - name: 🧱 Compile TypeScript
+      - name: Compile TypeScript
         run: npx tsc
 
-      - name: ⚙️ Set up Docker Buildx
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: 🔐 Log in to Docker Hub (if using private images)
+      - name: Log in to Docker Hub (Optional, if using private images)
         if: ${{ secrets.DOCKER_USERNAME != '' && secrets.DOCKER_TOKEN != '' }}
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
-      - name: 🏗️ Build Docker services
+      - name: Build Docker services
         run: docker compose build
 
-      - name: 🚀 Start InfluxDB and Grafana
+      - name: Start InfluxDB and Grafana
         run: docker compose up -d influxdb grafana
 
-      - name: ⏳ Wait for InfluxDB to be ready
+      - name: Wait for InfluxDB to be ready
         run: |
           echo "Waiting for InfluxDB to be ready..."
-          for i in {1..10}; do
-            if docker compose exec influxdb influx ping &>/dev/null; then
-              echo "✅ InfluxDB is ready!"
-              break
-            fi
+          for i in $(seq 1 10); do
+            docker compose logs influxdb | grep "InfluxDB starting" && break
             echo "Attempt $i: InfluxDB not ready yet..."
             sleep 5
           done
 
-      - name: 🧪 Run k6 Performance Tests
+      - name: Run k6 Tests
         run: |
           TEST_FILES=(
             "/scripts/scenarios/products/get-categories-details.js"
@@ -65,25 +62,21 @@ jobs:
             "/scripts/scenarios/products/search-products.js"
           )
 
-          for TEST_FILE in "${TEST_FILES[@]}"; do
-            echo "🚀 Running test: $TEST_FILE"
+          for TEST_FILE in "${{ TEST_FILES[@] }}"; do
+            echo "Running test: $TEST_FILE"
             docker compose run --rm k6 run "$TEST_FILE" \
               --env RATE=1 \
               --env TIME_UNIT=1s \
               --env DURATION=5s \
               --env PRE_ALLOCATED_VUS=10 \
               --env MAX_VUS=50
-
-            EXIT_CODE=$?
-            if [ $EXIT_CODE -ne 0 ]; then
-              echo "❌ Test failed: $TEST_FILE"
-              # Uncomment the next line to stop workflow on first failure
+            if [ $? -ne 0 ]; then
+              echo "Test $TEST_FILE failed!"
+              # Optionally, exit here if you want the workflow to fail on the first test failure
               # exit 1
-            else
-              echo "✅ Test passed: $TEST_FILE"
             fi
           done
 
-      - name: 🧹 Stop Docker services
+      - name: Stop Docker services
         if: always()
         run: docker compose down

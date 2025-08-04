@@ -1,7 +1,5 @@
 # DummyJSON k6 Performance Test Project
 
-
-
 ## Table of Contents
 
 - [About the Project](#about-the-project)

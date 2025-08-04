@@ -47,5 +47,11 @@ function default_1() {
             'status is 200': (r) => r.status === 200,
             'response is an array of strings': () => { var _a; return (_a = (Array.isArray(body) && (body === null || body === void 0 ? void 0 : body.every((c) => typeof c === 'string')))) !== null && _a !== void 0 ? _a : false; },
         });
+
+        if (res.status >= 200 && res.status < 300) {
+            console.log(`[SUCCESS] ${res.status}`);
+        } else {
+            console.error(`[FAILURE] ${res.status} - ${res.body}`);
+        }
     });
 }

@@ -48,5 +48,11 @@ function default_1() {
             'category is smartphones': () => { var _a, _b; return (_b = (_a = body === null || body === void 0 ? void 0 : body.products) === null || _a === void 0 ? void 0 : _a.every((p) => p.category === 'smartphones')) !== null && _b !== void 0 ? _b : false; },
             'total is 16': () => (body === null || body === void 0 ? void 0 : body.total) === 16,
         });
+
+        if (res.status >= 200 && res.status < 300) {
+            console.log(`[SUCCESS] ${res.status}`);
+        } else {
+            console.error(`[FAILURE] ${res.status} - ${res.body}`);
+        }
     });
 }

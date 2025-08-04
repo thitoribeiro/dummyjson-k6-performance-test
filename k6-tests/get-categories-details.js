@@ -47,5 +47,11 @@ function default_1() {
             'status is 200': (r) => r.status === 200,
             'categories have slug, name, url': () => { var _a; return (_a = body === null || body === void 0 ? void 0 : body.every((c) => c.slug && c.name && c.url)) !== null && _a !== void 0 ? _a : false; },
         });
+
+        if (res.status >= 200 && res.status < 300) {
+            console.log(`[SUCCESS] ${res.status}`);
+        } else {
+            console.error(`[FAILURE] ${res.status} - ${res.body}`);
+        }
     });
 }

@@ -47,5 +47,11 @@ function default_1() {
             'status is 200': (r) => r.status === 200,
             'products have id, title, price': () => { var _a, _b; return (_b = (_a = body === null || body === void 0 ? void 0 : body.products) === null || _a === void 0 ? void 0 : _a.every((p) => p.id && p.title && p.price)) !== null && _b !== void 0 ? _b : false; },
         });
+
+        if (res.status >= 200 && res.status < 300) {
+            console.log(`[SUCCESS] ${res.status}`);
+        } else {
+            console.error(`[FAILURE] ${res.status} - ${res.body}`);
+        }
     });
 }

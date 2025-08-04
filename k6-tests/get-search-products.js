@@ -62,7 +62,7 @@ function default_1() {
         });
         if (success) {
             searchSuccess.add(1);
-            console.log(`[SUCCESS] ${res.status} - ${(_b = (_a = body === null || body === void 0 ? void 0 : body.products) === null || _a === void 0 ? void 0 : _a.length) !== null && _b !== void 0 ? _b : 0} items found.`);
+            console.log(`[SUCCESS] ${res.status}`);
         }
         else {
             searchFailure.add(1);

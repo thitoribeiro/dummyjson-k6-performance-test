@@ -56,5 +56,11 @@ function default_1() {
                 return true;
             },
         });
+
+        if (res.status >= 200 && res.status < 300) {
+            console.log(`[SUCCESS] ${res.status}`);
+        } else {
+            console.error(`[FAILURE] ${res.status} - ${res.body}`);
+        }
     });
 }

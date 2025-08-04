@@ -55,5 +55,11 @@ function default_1() {
             'status is 201': (r) => r.status === 201,
             'product has id and title': () => !!((body === null || body === void 0 ? void 0 : body.id) && (body === null || body === void 0 ? void 0 : body.title) === 'BMW Pencil'),
         });
+
+        if (res.status >= 200 && res.status < 300) {
+            console.log(`[SUCCESS] ${res.status}`);
+        } else {
+            console.error(`[FAILURE] ${res.status} - ${res.body}`);
+        }
     });
 }

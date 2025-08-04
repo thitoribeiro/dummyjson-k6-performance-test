@@ -55,5 +55,11 @@ function default_1() {
             'status is 200': (r) => r.status === 200,
             'product title is updated': () => (body === null || body === void 0 ? void 0 : body.title) === 'iPhone Galaxy +1',
         });
+
+        if (res.status >= 200 && res.status < 300) {
+            console.log(`[SUCCESS] ${res.status}`);
+        } else {
+            console.error(`[FAILURE] ${res.status} - ${res.body}`);
+        }
     });
 }
